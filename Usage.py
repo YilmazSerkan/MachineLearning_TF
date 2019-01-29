@@ -17,3 +17,9 @@ class Usage(Dataset):
         train_data = train_data.astype(int)
         #print train_data
         return train_data
+
+    #inherited import labels function of class Dataset
+    def importLabels(dataObj):
+        train_labels = pd.read_csv(dataObj.dataPath, usecols = dataObj.colnames)
+        train_labels = np.array(train_labels).squeeze()
+        return train_labels

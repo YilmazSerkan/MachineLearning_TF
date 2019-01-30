@@ -83,3 +83,12 @@ def main():
     xtrainUsage = d.normalizeData(xtrainUsage)
     xtestUsage = d.normalizeData(xtestUsage)
 
+    #Load conversation keywords(strings) for prediction
+    conversation = Conversation("/Users/alenagerlinskaja/PycharmProjects/MachineLearning_TF/conversation.csv")
+    conversationStrData = conversation.importTextDataset()
+
+    #Encode string values to numbers by using a dictionary
+    dict = DictionaryManager()
+    conversationNumData= dict.encode_keywords(conversationStrData)
+    convData = conversation.normalizeData(conversationNumData)
+    print convData

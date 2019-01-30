@@ -111,3 +111,11 @@ def main():
 
     #Start Test/Evaluation by using test data & test lables from Usage.csv
     m.testModel(model, xtestUsage, ytestUsage)
+
+    """Execute a prediction for Conversation Data"""
+    #Execute a prediction
+    predictions = m.executePrediction(model, convData)
+    print predictions
+
+
+main()

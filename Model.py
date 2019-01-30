@@ -92,3 +92,22 @@ def main():
     conversationNumData= dict.encode_keywords(conversationStrData)
     convData = conversation.normalizeData(conversationNumData)
     print convData
+
+
+    """First Training & Test with DB.csv Dataset"""
+    #Build & compile the model
+    m = Model()
+    model = m.buildModel()
+
+    #Start Training by using train data & train lables from DB.csv
+    m.trainModel(model,xtrainDB,ytrainDB)
+
+    #Start Test/Evaluation by using test data & test lables from DB.csv
+    m.testModel(model, xtestDB,ytestDB)
+
+    """Second Training & Test with Usage.csv Dataset"""
+    #Start Training by using train data & train lables from Usage.csv
+    m.trainModel(model, xtrainUsage, ytrainUsage)
+
+    #Start Test/Evaluation by using test data & test lables from Usage.csv
+    m.testModel(model, xtestUsage, ytestUsage)

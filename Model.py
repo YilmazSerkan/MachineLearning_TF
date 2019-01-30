@@ -62,3 +62,24 @@ def main():
     #Normalize Data to values between 0 & 1
     xtrainDB = d.normalizeData(xtrainDB)
     xtestDB = d.normalizeData(xtestDB)
+
+    #Load Usage.csv Train Data
+    usageCsvPath = "/Users/alenagerlinskaja/PycharmProjects/MachineLearning_TF/Usage.csv"
+    usagecolnames = (['Keyword_1','Keyword_2','Keyword_3','Keyword_4','Keyword_5','Keyword_6','Keyword_7','Keyword_8','Keyword_9','Keyword_10'])
+    usageData = Usage(usageCsvPath, usagecolnames)
+    usageData = usageData.importDataset()
+    print usageData
+
+    #Load Usage.csv Labels
+    lbsusagecolnames = ['Doc_ID']
+    usageLabels = Usage(usageCsvPath,lbsusagecolnames)
+    usageLabels = usageLabels.importLabels()
+
+    #Split Usage Dataset into Train & Test Data
+    d = Dataset()
+    xtrainUsage, xtestUsage, ytrainUsage, ytestUsage = d.splitTrainTestData(usageData, usageLabels)
+
+    # Normalize usage data to values between 0 & 1
+    xtrainUsage = d.normalizeData(xtrainUsage)
+    xtestUsage = d.normalizeData(xtestUsage)
+

@@ -40,3 +40,25 @@ class Model():
    Dataset DB.csv --> Represents documents tagged with specific keywords
    Dataset Usage.csv --> Represents keywords collected from past conversations
    Execution of a prediction by using a dataset which simulates a conversation"""
+
+def main():
+
+    """First Training & Test with DB.csv Dataset"""
+    #Load DB.csv Train Data
+    dbCsvPath = "/Users/alenagerlinskaja/PycharmProjects/Machine_Learning/DB.csv"
+    dBcolnames = (['Keyword_1','Keyword_2','Keyword_3','Keyword_4','Keyword_5','Keyword_6','Keyword_7','Keyword_8','Keyword_9','Keyword_10'])
+    dBdata = DocumentBase(dbCsvPath, dBcolnames)
+    dBdata = dBdata.importDataset()
+
+    #Load DB.csv Labels
+    lbsDBcolnames = ['Doc_ID']
+    dBLabels = DocumentBase(dbCsvPath, lbsDBcolnames)
+    dBLabels = dBLabels.importLabels()
+
+    #Split DB Dataset into Train & Test Data
+    d = Dataset()
+    xtrainDB, xtestDB, ytrainDB, ytestDB = d.splitTrainTestData(dBdata, dBLabels)
+
+    #Normalize Data to values between 0 & 1
+    xtrainDB = d.normalizeData(xtrainDB)
+    xtestDB = d.normalizeData(xtestDB)

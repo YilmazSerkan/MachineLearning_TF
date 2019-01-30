@@ -5,6 +5,8 @@ from Dataset import Dataset
 from Dictionary import DictionaryManager
 from Conversation import Conversation
 from DocumentBase import DocumentBase
+import numpy as np
+
 
 class Model():
 
@@ -45,10 +47,11 @@ def main():
 
     """First Training & Test with DB.csv Dataset"""
     #Load DB.csv Train Data
-    dbCsvPath = "/Users/alenagerlinskaja/PycharmProjects/Machine_Learning/DB.csv"
+    dbCsvPath = "/Users/alenagerlinskaja/PycharmProjects/MachineLearning_TF/DB.csv"
     dBcolnames = (['Keyword_1','Keyword_2','Keyword_3','Keyword_4','Keyword_5','Keyword_6','Keyword_7','Keyword_8','Keyword_9','Keyword_10'])
     dBdata = DocumentBase(dbCsvPath, dBcolnames)
     dBdata = dBdata.importDataset()
+
 
     #Load DB.csv Labels
     lbsDBcolnames = ['Doc_ID']
@@ -68,7 +71,7 @@ def main():
     usagecolnames = (['Keyword_1','Keyword_2','Keyword_3','Keyword_4','Keyword_5','Keyword_6','Keyword_7','Keyword_8','Keyword_9','Keyword_10'])
     usageData = Usage(usageCsvPath, usagecolnames)
     usageData = usageData.importDataset()
-    print usageData
+    #print usageData
 
     #Load Usage.csv Labels
     lbsusagecolnames = ['Doc_ID']
@@ -91,7 +94,6 @@ def main():
     dict = DictionaryManager()
     conversationNumData= dict.encode_keywords(conversationStrData)
     convData = conversation.normalizeData(conversationNumData)
-    print convData
 
 
     """First Training & Test with DB.csv Dataset"""
@@ -99,23 +101,32 @@ def main():
     m = Model()
     model = m.buildModel()
 
+    print '==========TRAINING=========='
     #Start Training by using train data & train lables from DB.csv
     m.trainModel(model,xtrainDB,ytrainDB)
 
+    print '==========TEST=========='
     #Start Test/Evaluation by using test data & test lables from DB.csv
     m.testModel(model, xtestDB,ytestDB)
 
+    print '==========TRAINING=========='
     """Second Training & Test with Usage.csv Dataset"""
     #Start Training by using train data & train lables from Usage.csv
     m.trainModel(model, xtrainUsage, ytrainUsage)
 
+    print '==========TEST=========='
     #Start Test/Evaluation by using test data & test lables from Usage.csv
     m.testModel(model, xtestUsage, ytestUsage)
 
     """Execute a prediction for Conversation Data"""
     #Execute a prediction
     predictions = m.executePrediction(model, convData)
-    print predictions
 
+    print '==========PREDICTIONS=========='
+
+    for i in range(len(conversationStrData)):
+        print '------------- Prediction', i,'--------------'
+        print conversationStrData[i]
+        print 'PREDICTION LABEL', np.argmax(predictions[i])
 
 main()
